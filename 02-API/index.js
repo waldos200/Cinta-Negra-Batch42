@@ -1,4 +1,5 @@
 // Configuracion
+const request = require('request')
 const express = require('express');
 const { query } = require('express');
 const app = express();
@@ -47,7 +48,7 @@ app.get('/api/suma', (req, res) => {
 
 app.get('/api/usuario/:usuario', (req, res) => {
    const { usuario } = req.params;
-   res.status(200).json({usuario: req.params.usuario })
+   res.status(200).json({usuario: usuario })
 });
 
 /*
@@ -61,6 +62,17 @@ app.get('/api/usuario/:usuario', (req, res) => {
                         ...,
                     }}
  */
+
+app.get('/api/swapi/:character', (req, res) => {
+    const { character } = req.params
+    const SWAPI_URL = `https://swapi.dev/api/people/${character}/`;
+    request.get(SWAPI_URL, (err, response, body) => {
+        if (response.statusCode === 200){
+            const json = JSON.parse(body);
+            res.status(200).json({ character: json});
+        }
+    });
+ });
 
  // Encender la API
 app.listen(3000, () => console.log('Esta vivo'));
