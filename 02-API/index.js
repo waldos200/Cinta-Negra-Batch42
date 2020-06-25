@@ -29,6 +29,8 @@ app.get('/api/', (request, response) => {
 */
 
 app.get('/api/suma', (req, res) => {
+    // const {num1, num2} = req.query;
+    // const resultado = parseInt(num1) + parseInt(num2);
     const num1 = parseInt(req.query.num1);
     const num2 = parseInt(req.query.num2);
     const resultado = num1 + num2;
@@ -43,7 +45,10 @@ app.get('/api/suma', (req, res) => {
                       {‘usuario’: ‘Edwin’}
 */
 
-
+app.get('/api/usuario/:usuario', (req, res) => {
+   console.log(req.params);
+   res.status(200).json({usuario: req.params.usuario })
+});
 
 /*
 4.- Agrega un endpoint ‘/api/swapi’ que responda a una
