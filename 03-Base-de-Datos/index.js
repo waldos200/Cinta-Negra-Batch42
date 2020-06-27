@@ -53,16 +53,38 @@ api.post('/api/flights', (req, res) => {
     // 2) Pedirle a la base de datos que cree un nuevo documento a partir del body del cliente
     const newFlight = new Flights(body);
     newFlight.save()
-    // 3) Con la respuesta que recibamos de la base de datos, le respondemos al cliente
+        // 3) Con la respuesta que recibamos de la base de datos, le respondemos al cliente
         .then((resMongo) => res.status(201).json(resMongo))
         .catch((err) => res.status(400).json(err));
 })
 
-// Read
+// Read all
+api.get('/api/flights', (req, res) => {
+    Flights.find()
+        .then((resMonogo) => res.status(200).json(resMonogo))
+        .catch((err) => res.status(400).json(err));
+});
+
+// Read one
+api.get('/api/flights/:id', (req, res) => {
+    Flights.findById(req.params.id)
+        .then((resMonogo) => res.status(200).json(resMonogo))
+        .catch((err) => res.status(400).json(err));
+});
 
 // Update
+api.patch('/api/flights/:id', (req, res) => {
+    Flights.findByIdAndUpdate(req.params.id, req.body, { new: true })
+        .then((resMonogo) => res.status(200).json(resMonogo))
+        .catch((err) => res.status(400).json(err));
+});
 
 // Delete
+api.delete('/api/flights/:id', (req, res) => {
+    Flights.findByIdAndDelete(req.params.id)
+        .then((resMonogo) => res.status(200).json(resMonogo))
+        .catch((err) => res.status(400).json(err));
+});
 
 // Encender el servidor
 api.listen(PORT, () => console.log(`listening on ${PORT}`));
