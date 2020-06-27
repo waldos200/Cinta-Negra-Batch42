@@ -48,12 +48,14 @@ api.get('/', (req, res) => res.status(200).json({ massage: "it's alive!!!" }));
 // Create
 api.post('/api/flights', (req, res) => {
     // 1) Recibir la informacion del vuelo que se quiere crear desde el cliente
-    console.log(req.body);
+    const { body } = req;
 
-    // 2) Pedirle a la base de datos que guarde el nuevo animal
+    // 2) Pedirle a la base de datos que cree un nuevo documento a partir del body del cliente
+    const newFlight = new Flights(body);
+    newFlight.save()
     // 3) Con la respuesta que recibamos de la base de datos, le respondemos al cliente
-    const animal = { id: 'A1', nombre: 'Firulais', edad: 4 };
-    res.status(201).json({ animal });
+        .then((resMongo) => res.status(201).json(resMongo))
+        .catch((err) => res.status(400).json(err));
 })
 
 // Read
