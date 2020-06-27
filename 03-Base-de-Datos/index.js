@@ -1,14 +1,15 @@
 // Configuracion
+require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 const api = express();
 const PORT = process.env.PORT || 3000; // Configurar variables de entorno con "process.env.PORT ||"
 
 // Conexion a Base de Datos
 
-mongoose.connect('mongodb://waldo:abc123devf@cintanegrab42-shard-00-00-vdmib.mongodb.net:27017,cintanegrab42-shard-00-01-vdmib.mongodb.net:27017,cintanegrab42-shard-00-02-vdmib.mongodb.net:27017/test?ssl=true&replicaSet=CintaNegraB42-shard-0&authSource=admin&retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology:true })
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology:true })
     .then(() => console.log('Database connected'))
-    .catch(() => console.log('Error connecting to database...'))
+    .catch(() => console.log('Error connecting to database...'));
 
 // Endpoints
 api.get('/', (req, res) => res.status(200).json({ massage: "it's alive!!!" }));
