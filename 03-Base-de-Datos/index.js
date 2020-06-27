@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000; // Configurar variables de entorno con "p
 
 // Conexion a Base de Datos
 
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology:true })
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Database connected!'))
     .catch(() => console.log('Error connecting to database...'));
 
@@ -39,12 +39,17 @@ const flightsSchema = new mongoose.Schema({
 // Generar un modelo a partir del esquema -> Objeto que nos permite interactuar con la coleccion
 const Flights = mongoose.model('Flights', flightsSchema);
 
+api.use(express.urlencoded({ extended: true }));
+api.use(express.json({ extended: true }));
+
 // Endpoints
 api.get('/', (req, res) => res.status(200).json({ massage: "it's alive!!!" }));
 
 // Create
-api.post('/api/animales', (req, res) => {
-    // 1) Recibir el animal que se quiere crear desde el cliente
+api.post('/api/flights', (req, res) => {
+    // 1) Recibir la informacion del vuelo que se quiere crear desde el cliente
+    console.log(req.body);
+
     // 2) Pedirle a la base de datos que guarde el nuevo animal
     // 3) Con la respuesta que recibamos de la base de datos, le respondemos al cliente
     const animal = { id: 'A1', nombre: 'Firulais', edad: 4 };
