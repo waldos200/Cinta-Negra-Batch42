@@ -2,15 +2,13 @@ require('dotenv').config();
 require('./mongoClient/index');
 const express = require('express');
 const api = express();
+const path =require('path');
 const PORT = process.env.PORT || 3000;
 
 api.use(express.urlencoded({ extends: true }));
 api.use(express.json({ extends: true }));
 
-const Products = require('./models/Products');
-const Tickets = require('./models/Tickets');
-
-api.get('/', (req, res) => res.json({ message: "It's alive" }));
+api.get('/', (req, res) => res.sendFile(path.join(__dirname + '/index.html')));
 
 // CRUD Products
 api.use(require('./routes/ProductRoutes'));
