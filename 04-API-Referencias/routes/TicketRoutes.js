@@ -41,4 +41,19 @@ router.delete('/api/tickets/:id', (req, res) => {
     .catch(err => res.status(400).json(err));
 });
 
+router.patch('/api/tickets/:id/checkout', (req, res) =>{
+  const { id } = req.params;
+  Tickets.findById(id)
+    .populate('products')
+    .then((ticket) => {
+      const prices = ticket.products.map((product) => product.prices);
+      const subtotal = prices.reduce((total, price) => total + price, 0);
+      const iva = subtotal * 0.13;
+      const total1 = subtotal + iva;
+      return Tickets.findByIdAndUpdate(id, { subtotal, iva, total1 }, { new: true })
+    })
+    .then(ticketCheckout => res.status(200).json(ticketCheckout))
+    .catch(err => res.status(400).json(err))
+});
+
 module.exports = router;
