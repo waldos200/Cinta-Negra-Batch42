@@ -14,7 +14,7 @@ const ticketSchema = mongoose.Schema({
         default: 0,
     },
     products: 
-        [{type: mongoose.Schema.Types.ObjectId, ref: 'Products'}],
+        [{type: mongoose.Schema.Types.ObjectId, ref: 'Products', required: true}],
 });
 
 const Tickets = mongoose.model('Tickets', ticketSchema);
